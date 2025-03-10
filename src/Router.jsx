@@ -17,39 +17,34 @@ const stripePromise = loadStripe(
 
 function Routing() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route
-          path="/payment"
-          element={
-            <ProtectedRoute
-              msg={"you must log in to pay"}
-              redirect={"/payment"}
-            >
-              <Elements stripe={stripePromise}>
-                <Payment />
-              </Elements>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/orders"
-          element={
-            <ProtectedRoute
-              msg={"you must login to access your orders"}
-              redirect={"/orders"}
-            >
-              <Orders />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/category/:categoryName" element={<Results />} />
-        <Route path="/products/:productId" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route
+        path="/payment"
+        element={
+          <ProtectedRoute msg={"you must log in to pay"} redirect={"/payment"}>
+            <Elements stripe={stripePromise}>
+              <Payment />
+            </Elements>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute
+            msg={"you must login to access your orders"}
+            redirect={"/orders"}
+          >
+            <Orders />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/category/:categoryName" element={<Results />} />
+      <Route path="/products/:productId" element={<ProductDetail />} />
+      <Route path="/cart" element={<Cart />} />
+    </Routes>
   );
 }
 
