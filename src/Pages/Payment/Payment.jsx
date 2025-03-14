@@ -5,11 +5,12 @@ import { DataContext } from "../../Components/DataProvider/DataProvider";
 import ProductCard from "../../Components/Product/ProductCard";
 import { useElements, useStripe, CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
-import { axiosInstance } from "../../API/axios";
+// import { axiosInstance } from "../../API/axios";
 import { ClipLoader } from "react-spinners";
 import { db } from "../../Utility/firebase";
 import { useNavigate } from "react-router-dom";
 import { Type } from "../../Utility/action.type";
+import { axiosInstance } from "../../API/axios";
 
 function Payment() {
   const [{ user, basket }, dispatch] = useContext(DataContext);
@@ -37,12 +38,14 @@ function Payment() {
 
     try {
       setProcessing(true);
+
       const response = await axiosInstance({
         method: "POST",
         url: `/payment/create?total=${total * 100}`,
       });
       // console.log(response.data);
       const clientSecret = response.data?.clientSecret;
+      console.log(clientSecret);
 
       //  2  client side confirmation
 
@@ -51,7 +54,9 @@ function Payment() {
           card: elements.getElement(CardElement),
         },
       });
-      // console.log(paymentIntent);
+      const card = elements.getElement(CardElement);
+      console.log(card);
+      console.log(paymentIntent);
 
       //  3  save order on firebase database
 
